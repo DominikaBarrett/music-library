@@ -1,7 +1,8 @@
 import csv
 from display import *
+from time_converter import *
+from menu import MENU
 
-ALBUMS = []
 TITLE_INDEX = 0
 ALBUM_INDEX = 1
 YEAR_INDEX = 2
@@ -9,19 +10,13 @@ GENRE_INDEX = 3
 TIME_INDEX = 4
 
 
-def menu():
-    global ALBUMS
+def menu(ALBUMS):
     print("MENU")
-    print("1. IMPORT ALBUMS")
-    print("2. DISPLAY ALBUMS")
-    print("3. GET ALBUMS BY GENRE")
-    print("4. GET ALBUMS BY YEAR")
-    print("5. GET YOUNGEST ALBUMS")
-    print("6. SORT ALBUMS BY YEAR")
-    print("7. GET ALBUMS BY TIME RANGE")
-    print("X. EXIT")
-
+    print_dictionary(MENU)
+ 
     option = input("Provide operation number: ")
+    while not option in MENU.keys():
+        option = input("Provide operation number: ")
 
     if option == "1":
         ALBUMS = import_albums()
@@ -29,19 +24,19 @@ def menu():
         display_albums(ALBUMS)
     elif option == "3":
         genre = input("Provide genre: ")
-        display_albums(get_albums_by(GENRE_INDEX, genre))
+        display_albums(get_albums_by(GENRE_INDEX, genre, ALBUMS))
     elif option == "4":
         year = input("Provide year: ")
-        display_albums(get_albums_by(YEAR_INDEX, year))
+        display_albums(get_albums_by(YEAR_INDEX, year, ALBUMS))
     elif option == "5":
-        display_albums(get_youngest_album())
+        display_albums(get_youngest_album(ALBUMS))
     elif option == "6":
-        display_albums(sort_albums_by_year())
+        display_albums(sort_albums_by_year(ALBUMS))
     elif option == "7":
         time_from = input("Provide time from: (mm:ss)")
         time_to = input("Provide time to: (mm:ss)")
 
-        display_albums(get_albums_by_time_range(time_from, time_to))
+        display_albums(get_albums_by_time_range(time_from, time_to, ALBUMS))
     else:
         exit()
 
@@ -56,7 +51,7 @@ def import_albums(filepath="text_albums_data.txt"):
     return albums
 
 
-def get_albums_by(column_index, value):
+def get_albums_by(column_index, value, ALBUMS):
     selected_albums = []
     value = value.lower()
 
@@ -67,7 +62,7 @@ def get_albums_by(column_index, value):
     return selected_albums
 
 
-def get_albums_by_time_range(time_from, time_to):
+def get_albums_by_time_range(time_from, time_to, ALBUMS):
     # TODO check if time_to is greater than time_from
 
     time_from = convert_to_seconds(time_from)
@@ -84,7 +79,7 @@ def get_albums_by_time_range(time_from, time_to):
     return result
 
 
-def get_youngest_album():
+def get_youngest_album(ALBUMS):
     result = []
     years = []
 
@@ -104,7 +99,7 @@ def get_youngest_album():
     return result
 
 
-def sort_albums_by_year():
+def sort_albums_by_year(ALBUMS):
     result = []
     temporary_album_list = ALBUMS
 
@@ -115,15 +110,10 @@ def sort_albums_by_year():
     return result
 
 
-def convert_to_seconds(time_string):
-    m,s = time_string.split(":")
-    return int(m)*60 + int(s)
-
 def main():
-    global ALBUMS
     ALBUMS = import_albums()
     while True:
-        menu()
+        menu(ALBUMS)
 
 
 main()

@@ -1,0 +1,10 @@
+MENU = {
+    "1": "IMPORT ALBUMS",
+    "2": "DISPLAY ALBUMS",
+    "3": "GET ALBUMS BY GENRE",
+    "4": "GET ALBUMS BY YEAR",
+    "5": "GET YOUNGEST ALBUMS",
+    "6": "SORT ALBUMS BY YEAR",
+    "7": "GET ALBUMS BY TIME RANGE",
+    "X": "EXIT"
+}
