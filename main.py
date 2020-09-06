@@ -18,6 +18,7 @@ def menu():
     print("4. GET ALBUMS BY YEAR")
     print("5. GET YOUNGEST ALBUMS")
     print("6. SORT ALBUMS BY YEAR")
+    print("7. GET ALBUMS BY TIME RANGE")
     print("X. EXIT")
 
     option = input("Provide operation number: ")
@@ -36,6 +37,11 @@ def menu():
         display_albums(get_youngest_album())
     elif option == "6":
         display_albums(sort_albums_by_year())
+    elif option == "7":
+        time_from = input("Provide time from: (mm:ss)")
+        time_to = input("Provide time to: (mm:ss)")
+
+        display_albums(get_albums_by_time_range(time_from, time_to))
     else:
         exit()
 
@@ -61,8 +67,21 @@ def get_albums_by(column_index, value):
     return selected_albums
 
 
-def get_albums_by_time_range(time_range_from, time_range_to):
-    pass
+def get_albums_by_time_range(time_from, time_to):
+    # TODO check if time_to is greater than time_from
+
+    time_from = convert_to_seconds(time_from)
+    time_to = convert_to_seconds(time_to)
+    result = []
+
+    for row in ALBUMS:
+        time = row[TIME_INDEX]
+        time = convert_to_seconds(time)
+
+        if time_from < time < time_to:
+            result.append(row)
+
+    return result
 
 
 def get_youngest_album():
@@ -95,6 +114,10 @@ def sort_albums_by_year():
     result = sorted(temporary_album_list, key=lambda row: row[YEAR_INDEX])
     return result
 
+
+def convert_to_seconds(time_string):
+    m,s = time_string.split(":")
+    return int(m)*60 + int(s)
 
 def main():
     global ALBUMS
