@@ -98,6 +98,9 @@ def get_youngest_album(ALBUMS):
 
     return result
 
+def get_oldest_album(ALBUMS):
+    print("OLDEST ALBUM")
+    
 
 def sort_albums_by_year(ALBUMS):
     result = []
