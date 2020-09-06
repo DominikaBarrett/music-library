@@ -9,3 +9,6 @@ def display_albums(albums):
 def print_dictionary(dictionary):
     for key in dictionary.keys():
         print(f'{key}. {dictionary[key]}')
+
+def print_headers():
+    pass
